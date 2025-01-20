@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: ./nestjs-planner
+      dockerfile: Dockerfile
+    ports:
+      - '4200:4200'
+    environment:
+      DATABASE_URL: 'postgresql://postgres:password@db:5432/mydatabase'
+      JWT_SECRET: 'HelfaA2C'
+    depends_on:
+      - db
+    command: >
+      sh -c "
+      npx prisma generate &&
+      npx prisma db push &&
+      npx prisma db pull &&
+      npm run build &&
+      npm run start:prod
+      "
+  client:
+    build:
+      context: ./nextjs-planner
+      dockerfile: Dockerfile
+    ports:
+      - '3001:3000'
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:4200/api
+  db:
+    image: postgres:15-alpine
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydatabase
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
