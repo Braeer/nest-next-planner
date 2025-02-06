@@ -33,7 +33,7 @@ export function DashboardSidebar() {
 				</div>
 			</div>
 			<footer className='text-xs opacity-40 font-normal text-center p-layout'>
-				2024 &copy; With love from{' '}
+				Develop by{' '}
 				<a
 					href='https://github.com/Braeer'
 					target='_blank'
@@ -42,7 +42,6 @@ export function DashboardSidebar() {
 				>
 					Braeer
 				</a>
-				. <br /> All rights reserved.
 			</footer>
 		</aside>
 	)
